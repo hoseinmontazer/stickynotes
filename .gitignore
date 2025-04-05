@@ -1,0 +1,50 @@
+# Go binary and object files
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+*.a
+
+# Go workspace files
+go.work
+go.work.sum
+
+# Vendor directory (optional if you are not using vendoring)
+vendor/
+
+# Dependency directories
+node_modules/
+vendor/
+
+# IDE/editor-specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Go build artifacts
+/bin/
+/build/
+
+# Cache files
+*.log
+*.cache
+
+# Go-specific exclusions
+# Go modules cache (in case you are using Go modules)
+*.mod
+*.sum
+
+# Go coverage files
+*.coverage
+*.coverprofile
+
+# Go test binary
+test.out
