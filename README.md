@@ -19,12 +19,15 @@
 git clone https://github.com/hoseinmontazer/stickynotes.git
 cd stickynotes
 go build -o stickynotes
+```
+
 ### Clone and Build
 
 ```bash
 git clone https://github.com/hoseinmontazer/stickynotes.git
 cd stickynotes
 go build -o stickynotes
+```
 
 ## 📖 Usage
 
@@ -36,8 +39,9 @@ Launch the terminal UI:
 
 ```bash
 stickynotes
+```
 
-🎨 TUI Navigation
+### 🎨 TUI Navigation
 Key	Action
 ↑ / ↓	Navigate menu or notes
 Enter	Select or insert newline
