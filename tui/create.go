@@ -84,7 +84,7 @@ func (m CreateModel) saveNote() (tea.Model, tea.Cmd) {
 	}
 
 	// Load notes before creating the list model
-	notes, err := loadNotes(m.NotesPath)
+	notes, err := LoadNotes(m.NotesPath)
 	if err != nil {
 		m.err = err
 		return m, nil

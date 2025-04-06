@@ -25,7 +25,7 @@ func (m ViewModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		switch msg.String() {
 		case "q", "esc":
 			// Return to the list view
-			notes, err := loadNotes(m.NotesPath)
+			notes, err := LoadNotes(m.NotesPath)
 			if err != nil {
 				// Handle error (could show an error message)
 				return m, nil
@@ -37,7 +37,7 @@ func (m ViewModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			EditNoteWithEditor(m.NotesPath, m.NoteName)
 
 			// After editing, reload the note and return to the same view with updated content
-			content, err := readNote(m.NotesPath, m.NoteName)
+			content, err := ReadNote(m.NotesPath, m.NoteName)
 			if err != nil {
 				// Handle error if note doesn't exist
 				m.Content = "Error: Could not load note."
@@ -57,7 +57,7 @@ func (m ViewModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			// Check if the note content is already loaded
 			if m.Content == "" {
 				// Load the content of the note with the given NoteName
-				content, err := readNote(m.NotesPath, m.NoteName)
+				content, err := ReadNote(m.NotesPath, m.NoteName)
 				if err != nil {
 					// Handle error if note doesn't exist
 					m.Content = "Error: Could not load note."

@@ -1,4 +1,4 @@
-// cli/cli.go
+// cli/commands.go
 package cli
 
 import (

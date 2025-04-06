@@ -27,7 +27,7 @@ func (m NoteNameInputModel) Init() tea.Cmd {
 }
 
 func (m NoteNameInputModel) noteExists(name string) (bool, error) {
-	notes, err := loadNotes(m.NotesPath)
+	notes, err := LoadNotes(m.NotesPath)
 	if err != nil {
 		return false, err
 	}
@@ -46,7 +46,7 @@ func (m NoteNameInputModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case "enter":
 			if m.Input == "" {
 				if !m.showList { // Only show list if we haven't already
-					notes, err := loadNotes(m.NotesPath)
+					notes, err := LoadNotes(m.NotesPath)
 					if err != nil {
 						m.Error = fmt.Sprintf("Error loading notes: %v", err)
 						return m, nil
@@ -67,7 +67,7 @@ func (m NoteNameInputModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			}
 
 			if !exists {
-				notes, err := loadNotes(m.NotesPath)
+				notes, err := LoadNotes(m.NotesPath)
 				if err != nil {
 					m.Error = fmt.Sprintf("Error loading notes: %v", err)
 					return m, nil
@@ -76,7 +76,7 @@ func (m NoteNameInputModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				return NewListModel(m.AppModel, notes), nil
 			}
 
-			content, err := readNote(m.NotesPath, m.Input)
+			content, err := ReadNote(m.NotesPath, m.Input)
 			if err != nil {
 				m.Error = fmt.Sprintf("Error reading note: %v", err)
 				return m, nil

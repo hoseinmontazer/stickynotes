@@ -18,7 +18,7 @@ type AppModel struct {
 func NewAppModel(notesPath string) AppModel {
 	return AppModel{
 		NotesPath:   notesPath,
-		CurrentView: "help", // Initial view is the help screen
+		CurrentView: "list", // Initial view is the help screen
 	}
 }
 
@@ -30,7 +30,7 @@ func (m AppModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		// Handle key press events
 		if msg.String() == "enter" {
 			// Handle Enter key press
-			notes, err := loadNotes(m.NotesPath)
+			notes, err := LoadNotes(m.NotesPath)
 			if err != nil {
 				// Handle error loading notes
 				m.CurrentView = "error"
@@ -39,7 +39,7 @@ func (m AppModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 			// Display the first note for simplicity or a specific one based on selection
 			if len(notes) > 0 {
-				noteContent, err := readNote(m.NotesPath, notes[0])
+				noteContent, err := ReadNote(m.NotesPath, notes[0])
 				if err != nil {
 					// Handle error reading note
 					m.CurrentView = "error"
@@ -63,6 +63,17 @@ func (m AppModel) View() string {
 	switch m.CurrentView {
 	case "note":
 		return m.CurrentNote
+	case "list":
+		return "e"
+		// notes, err := loadNotes(m.NotesPath)
+		// if err != nil || len(notes) == 0 {
+		// 	return "No notes found"
+		// }
+		// output := "Your Notes:\n\n"
+		// for i, n := range notes {
+		// 	output += fmt.Sprintf("%d. %s\n", i+1, n)
+		// }
+		// return output
 	case "help":
 		return "Press Enter to view notes"
 	case "error":
@@ -72,7 +83,7 @@ func (m AppModel) View() string {
 	}
 }
 
-func loadNotes(path string) ([]string, error) {
+func LoadNotes(path string) ([]string, error) {
 	entries, err := os.ReadDir(path)
 	if err != nil {
 		return nil, err
@@ -85,7 +96,7 @@ func loadNotes(path string) ([]string, error) {
 	return notes, nil
 }
 
-func readNote(path, name string) (string, error) {
+func ReadNote(path, name string) (string, error) {
 	content, err := os.ReadFile(filepath.Join(path, name))
 	return string(content), err
 }

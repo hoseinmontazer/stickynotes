@@ -40,7 +40,7 @@ func (m DeleteModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		switch msg.String() {
 		case "esc":
 			// Return to the list view without deleting
-			notes, err := loadNotes(m.NotesPath)
+			notes, err := LoadNotes(m.NotesPath)
 			if err != nil {
 				m.err = err
 				return m, nil
@@ -51,7 +51,7 @@ func (m DeleteModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			// Delete the note
 			deleteNote(m.NotesPath, m.NoteName)
 			// Return to the list view after deletion
-			notes, err := loadNotes(m.NotesPath)
+			notes, err := LoadNotes(m.NotesPath)
 			if err != nil {
 				m.err = err
 				return m, nil
@@ -60,7 +60,7 @@ func (m DeleteModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 		case "n": // Cancel deletion
 			// Return to the list view without deleting the note
-			notes, err := loadNotes(m.NotesPath)
+			notes, err := LoadNotes(m.NotesPath)
 			if err != nil {
 				m.err = err
 				return m, nil

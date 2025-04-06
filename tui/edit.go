@@ -22,7 +22,7 @@ type EditModel struct {
 func NewEditModel(base AppModel, noteName string) (EditModel, tea.Cmd) {
 	// Build the full path to the note file
 	notePath := filepath.Join(base.NotesPath, noteName)
-	content, err := readNote(base.NotesPath, noteName)
+	content, err := ReadNote(base.NotesPath, noteName)
 	if err != nil {
 		return EditModel{}, tea.Quit
 	}
@@ -52,7 +52,7 @@ func (m EditModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		switch msg.String() {
 		case "esc":
 			// Return to the list view on Esc
-			notes, err := loadNotes(m.NotesPath)
+			notes, err := LoadNotes(m.NotesPath)
 			if err != nil {
 				m.err = err
 				return m, nil
@@ -64,7 +64,7 @@ func (m EditModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			EditNoteWithEditor(m.NotesPath, m.NoteName)
 
 			// After editing, reload the note content and return to the same model
-			content, err := readNote(m.NotesPath, m.NoteName)
+			content, err := ReadNote(m.NotesPath, m.NoteName)
 			if err != nil {
 				m.err = err
 				return m, nil
@@ -95,7 +95,7 @@ func (m EditModel) saveNote() (tea.Model, tea.Cmd) {
 	}
 
 	// Reload notes after saving
-	notes, err := loadNotes(m.NotesPath)
+	notes, err := LoadNotes(m.NotesPath)
 	if err != nil {
 		m.err = err
 		return m, nil

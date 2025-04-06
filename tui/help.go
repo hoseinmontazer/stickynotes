@@ -35,7 +35,7 @@ func (m HelpModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			case 0:
 				return NewCreateModel(m.AppModel), nil
 			case 1:
-				notes, _ := loadNotes(m.NotesPath)
+				notes, _ := LoadNotes(m.NotesPath)
 				return NewListModel(m.AppModel, notes), nil
 			case 2:
 				return m.promptForNoteName(), nil

@@ -40,11 +40,31 @@ func (m ListModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	// Handle the "enter" key
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
-		if msg.String() == "enter" && len(m.Notes) > 0 {
-			content, _ := readNote(m.NotesPath, m.Notes[m.Selected])
+		// if msg.String() == "enter" && len(m.Notes) > 0 {
+		// 	content, _ := ReadNote(m.NotesPath, m.Notes[m.Selected])
+		// 	// Create and return a new ViewModel to view the selected note
+		// 	return NewViewModel(m.AppModel, m.Notes[m.Selected], content), nil
+		// }
+		// key := msg.String()
+		// if key == "enter" && len(m.Notes) > 0 {
+		// 	content, _ := ReadNote(m.NotesPath, m.Notes[m.Selected])
+		// 	return NewViewModel(m.AppModel, m.Notes[m.Selected], content), nil
+		// }
+		// if key == "h" {
+		// 	return NewHelpModel(m.AppModel), nil
+		// }
+		switch msg.String() {
+		case "enter":
+			content, _ := ReadNote(m.NotesPath, m.Notes[m.Selected])
 			// Create and return a new ViewModel to view the selected note
 			return NewViewModel(m.AppModel, m.Notes[m.Selected], content), nil
+		case "h":
+			return NewHelpModel(m.AppModel), nil
+		case "q":
+			tea.Quit()
+
 		}
+
 	}
 
 	return m, cmd
@@ -66,7 +86,7 @@ func (m ListModel) View() string {
 			"",
 			strings.Join(list, "\n"),
 			"",
-			FooterStyle.Render("Enter: View • q: Back"),
+			FooterStyle.Render("Enter: View • h: help • q: Back"),
 		),
 	)
 }
