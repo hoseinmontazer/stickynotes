@@ -26,7 +26,7 @@ go build -o stickynotes
 ```bash
 git clone https://github.com/hoseinmontazer/stickynotes.git
 cd stickynotes
-go build -o stickynotes
+go build -o ./build/stickynotes
 ```
 
 ## 📖 Usage
