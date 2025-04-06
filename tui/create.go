@@ -46,6 +46,13 @@ func (m CreateModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				return m, nil
 			}
 			if m.step == 1 {
+				// insert neline
+				m.contentInput += "\n"
+				return m, nil
+				// return m.saveNote()
+			}
+		case "ctrl+s":
+			if m.step == 1 {
 				return m.saveNote()
 			}
 
@@ -107,7 +114,7 @@ func (m CreateModel) View() string {
 		content = TitleStyle.Render("Create New Note: "+m.nameInput) + "\n\n"
 		content += "Enter note content:\n"
 		content += SelectedStyle.Render("> "+m.contentInput+"⎕") + "\n\n"
-		content += FooterStyle.Render("Press Enter to save, Esc to cancel")
+		content += FooterStyle.Render("Press ctrl+s to save, Esc to cancel")
 	}
 
 	if m.err != nil {

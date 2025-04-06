@@ -79,7 +79,7 @@ func (m DeleteModel) View() string {
 	content = TitleStyle.Render("Delete Note: "+m.NoteName) + "\n\n"
 
 	// Use NormalStyle for the body content
-	content += NormalStyle.Render("Are you sure you want to delete this note? (y/n)\n\n")
+	content += lipgloss.NewStyle().Foreground(lipgloss.Color("#ff0000")).Render("Are you sure you want to delete this note? (y/n)\n\n")
 
 	// Use FooterStyle for the footer
 	content += FooterStyle.Render("Press 'y' to confirm, 'n' to cancel")

@@ -6,6 +6,7 @@ var (
 	PrimaryColor   = lipgloss.Color("#5A56E0")
 	SecondaryColor = lipgloss.Color("#FF5F87")
 	HighlightColor = lipgloss.Color("#FFD700")
+	CautionColor   = lipgloss.Color("#ff0000")
 
 	TitleStyle = lipgloss.NewStyle().
 			Bold(true).
