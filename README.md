@@ -64,11 +64,16 @@ All notes are stored as .txt files in:
 ```
 
 ### 🛠️ Dependencies
-# Bubble Tea
-# Lip Gloss
--go get github.com/charmbracelet/bubbletea
-- go get github.com/charmbracelet/lipgloss
+This project uses the following libraries:
 
+- [**Bubble Tea**](https://github.com/charmbracelet/bubbletea) – A fun, functional, and stateful way to build terminal UIs.
+- [**Lip Gloss**](https://github.com/charmbracelet/lipgloss) – Style definitions for terminal applications.
+#### Install via Go:
+
+```bash
+go get github.com/charmbracelet/bubbletea
+go get github.com/charmbracelet/lipgloss
+```
 ### 🧠 Future Improvements
 - Search/filter notes
 - Markdown rendering in view mode
