@@ -11,6 +11,7 @@
 - 💾 Notes are stored as plain `.txt` files in `~/.stickynotes`
 - 🛠 CLI support for scripting or automation
 - 🗂 All notes are managed locally — no cloud, no sync
+- list notes by tag
 
 ---
 
@@ -58,6 +59,7 @@ stickynotes
 | Esc        | Cancel/quit input         |
 | q          | Go back/quit menu         |
 | h          | Return to help screen     |
+| t          | List by tag               |
 
 ### 🖥️ Command Line Mode
 
