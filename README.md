@@ -41,36 +41,37 @@ Launch the terminal UI:
 stickynotes
 ```
 
-### 🎨 TUI Navigation
-Key	Action
-↑ / ↓	Navigate menu or notes
-Enter	Select or insert newline
-Ctrl+S	Save note
-Esc	Cancel/quit input
-q	Go back/quit menu
-h	Return to help screen
+| Key        | Action                    |
+|------------|---------------------------|
+| ↑ / ↓      | Navigate menu or notes    |
+| Enter      | Select or insert newline  |
+| Ctrl+S     | Save note                 |
+| Esc        | Cancel/quit input         |
+| q          | Go back/quit menu         |
+| h          | Return to help screen     |
 
 ### 🖥️ Command Line Mode
-./stickynotes create        # Create a new note via CLI
-./stickynotes list          # List all notes
-./stickynotes view <name>   # View a note
-./stickynotes delete <name> # Delete a note
+- ./stickynotes create        # Create a new note via CLI
+- ./stickynotes list          # List all notes
+- ./stickynotes view <name>   # View a note
+- ./stickynotes delete <name> # Delete a note
 
 
 ### 📂 Notes Storage
 All notes are stored as .txt files in:
+```
 ~/.stickynotes/
-
+```
 
 ### 🛠️ Dependencies
-Bubble Tea
-Lip Gloss
-go get github.com/charmbracelet/bubbletea
-go get github.com/charmbracelet/lipgloss
+# Bubble Tea
+# Lip Gloss
+-go get github.com/charmbracelet/bubbletea
+- go get github.com/charmbracelet/lipgloss
 
 ### 🧠 Future Improvements
-Search/filter notes
-Markdown rendering in view mode
-Edit existing notes
-Tagging system
+- Search/filter notes
+- Markdown rendering in view mode
+- Edit existing notes
+- Tagging system
 
