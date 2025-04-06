@@ -3,7 +3,7 @@
 set -e
 
 INSTALL_DIR="/usr/local/bin"
-BINARY_URL="https://github.com/hoseinmontazer/stickynotes/releases/download/v1.0.0/stickynotes-linux-amd64.tar.gz"
+BINARY_URL="https://github.com/hoseinmontazer/stickynotes/releases/download/v1.0.1/stickynotes-linux-amd64.tar.gz"
 TMP_DIR=$(mktemp -d)
 ARCHIVE="$TMP_DIR/stickynotes.tar.gz"
 
