@@ -51,10 +51,15 @@ stickynotes
 | h          | Return to help screen     |
 
 ### 🖥️ Command Line Mode
-- ./stickynotes create        # Create a new note via CLI
-- ./stickynotes list          # List all notes
-- ./stickynotes view <name>   # View a note
-- ./stickynotes delete <name> # Delete a note
+
+Run the following commands to use StickyNotes via the CLI:
+
+```bash
+./stickynotes create         # Create a new note via CLI
+./stickynotes list           # List all notes
+./stickynotes view <name>    # View a specific note
+./stickynotes delete <name>  # Delete a specific note
+```
 
 
 ### 📂 Notes Storage
