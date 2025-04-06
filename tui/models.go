@@ -65,15 +65,6 @@ func (m AppModel) View() string {
 		return m.CurrentNote
 	case "list":
 		return "e"
-		// notes, err := loadNotes(m.NotesPath)
-		// if err != nil || len(notes) == 0 {
-		// 	return "No notes found"
-		// }
-		// output := "Your Notes:\n\n"
-		// for i, n := range notes {
-		// 	output += fmt.Sprintf("%d. %s\n", i+1, n)
-		// }
-		// return output
 	case "help":
 		return "Press Enter to view notes"
 	case "error":

@@ -11,7 +11,8 @@ import (
 )
 
 const (
-	notesDir = ".stickynotes"
+	notesDir         = ".stickynotes"
+	metadataFileName = ".metadata.json"
 )
 
 func main() {
@@ -26,6 +27,16 @@ func main() {
 	if err := os.MkdirAll(notesPath, 0755); err != nil {
 		fmt.Println("Error creating notes directory:", err)
 		os.Exit(1)
+	}
+	metadataFile := filepath.Join(notesPath, metadataFileName)
+	if _, err := os.Stat(metadataFile); os.IsNotExist(err) {
+		fmt.Println("File does not exist, creating:", metadataFile)
+		file, err := os.Create(metadataFile)
+		if err != nil {
+			fmt.Println("Error creating file:", err)
+			os.Exit(1)
+		}
+		defer file.Close()
 	}
 
 	// Handle CLI arguments
