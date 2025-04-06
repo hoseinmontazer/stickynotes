@@ -15,12 +15,21 @@
 ---
 
 ## 🚀 Installation
+#### 🔧 Option 1: Quick Install (Recommended)
+
+Run this one-liner to install StickyNotes automatically:
+
+```bash
+curl -sSL https://raw.githubusercontent.com/hoseinmontazer/stickynotes/main/install.sh | bash
+``
+#### 🔧 Option 1: build and Install manually
 ```bash
 git clone https://github.com/hoseinmontazer/stickynotes.git
 cd stickynotes
 go build -o stickynotes
+mv stickynotes /usr/local/bin
+chmod +x /usr/local/bin/stickynotes
 ```
-
 ### Clone and Build
 
 ```bash
