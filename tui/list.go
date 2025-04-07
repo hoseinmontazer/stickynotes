@@ -13,11 +13,13 @@ import (
 
 type ListModel struct {
 	AppModel
-	Notes     []string
-	Selected  int
-	TagFilter string
-	Metadata  map[string]map[string]string
-	err       error
+	Notes         []string
+	Selected      int
+	TagFilter     string
+	Metadata      map[string]map[string]string
+	TagSelect     bool
+	AvailableTags []string
+	err           error
 }
 
 func NewListModel(base AppModel, notes []string) ListModel {
@@ -26,15 +28,17 @@ func NewListModel(base AppModel, notes []string) ListModel {
 	if err != nil {
 		fmt.Println("Error loading metadata:", err)
 	}
-	return ListModel{AppModel: base, Notes: notes, Metadata: metadata}
+	return ListModel{
+		AppModel: base,
+		Notes:    notes,
+		Metadata: metadata,
+	}
 }
 
-// Load metadata from .metadata.json
 func loadMetadata(path string) (map[string]map[string]string, error) {
 	metadataPath := filepath.Join(path, ".metadata.json")
 	metadata := make(map[string]map[string]string)
 
-	// Check if metadata file exists
 	if _, err := os.Stat(metadataPath); err != nil {
 		if os.IsNotExist(err) {
 			return metadata, nil
@@ -42,7 +46,6 @@ func loadMetadata(path string) (map[string]map[string]string, error) {
 		return nil, err
 	}
 
-	// Read and parse the file content
 	fileContent, err := os.ReadFile(metadataPath)
 	if err != nil {
 		return nil, err
@@ -56,7 +59,6 @@ func loadMetadata(path string) (map[string]map[string]string, error) {
 	return metadata, nil
 }
 
-// Filter out non-note files (e.g., .metadata.json)
 func filterOutMetadata(notes []string) []string {
 	var filteredNotes []string
 	for _, note := range notes {
@@ -76,16 +78,27 @@ func (m ListModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	var updatedModel tea.Model
 	updatedModel, cmd = handleKeys(m, msg)
 
-	// Ensure it's a ListModel after handleKeys
 	if listModel, ok := updatedModel.(ListModel); ok {
 		m = listModel
 	}
 
-	// Handle key actions
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
 		switch msg.String() {
 		case "enter":
+			if m.TagSelect {
+				// Select a tag
+				if len(m.AvailableTags) > 0 && m.Selected < len(m.AvailableTags) {
+					selectedTag := m.AvailableTags[m.Selected]
+					m.TagFilter = selectedTag
+					m.TagSelect = false
+					m.Selected = 0
+					return m.updateTagFilter([]string{selectedTag}), nil
+				}
+				return m, nil
+			}
+
+			// Select a note
 			if len(m.Notes) == 0 {
 				m.err = fmt.Errorf("no notes available to select")
 				return m, nil
@@ -99,8 +112,15 @@ func (m ListModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 		case "h":
 			return NewHelpModel(m.AppModel), nil
+
 		case "q":
-			tea.Quit()
+			if m.TagSelect {
+				// Exit tag selection
+				m.TagSelect = false
+				return m, nil
+			}
+			return m, tea.Quit
+
 		case "t":
 			return m.handleTagFilter(), nil
 		}
@@ -110,36 +130,35 @@ func (m ListModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (m ListModel) handleTagFilter() tea.Model {
-	// Collect unique tags from metadata
 	tagSet := make(map[string]struct{})
 	for _, tagsMap := range m.Metadata {
 		tagSet[tagsMap["tags"]] = struct{}{}
 	}
 
-	// Convert tag set to slice
 	var tags []string
 	for tag := range tagSet {
 		tags = append(tags, tag)
 	}
 
-	// Update notes based on the selected tag filter
-	return m.updateTagFilter(tags)
+	m.TagSelect = true
+	m.AvailableTags = tags
+	m.Selected = 0
+	return m
 }
 
 func (m ListModel) updateTagFilter(tags []string) tea.Model {
 	var filteredNotes []string
+	tagSet := make(map[string]bool)
+	for _, t := range tags {
+		tagSet[t] = true
+	}
 
-	// Filter notes based on the selected tag
-	for _, note := range m.Notes {
-		if tagsMap, ok := m.Metadata[note]; ok {
-			tag := tagsMap["tags"]
-			if m.TagFilter == "" || strings.Contains(tag, m.TagFilter) {
-				filteredNotes = append(filteredNotes, note)
-			}
+	for note, tagsMap := range m.Metadata {
+		if tagSet[tagsMap["tags"]] {
+			filteredNotes = append(filteredNotes, note)
 		}
 	}
 
-	// If no notes match the filter, show all notes
 	if len(filteredNotes) == 0 {
 		filteredNotes = m.Notes
 	}
@@ -149,6 +168,29 @@ func (m ListModel) updateTagFilter(tags []string) tea.Model {
 }
 
 func (m ListModel) View() string {
+	if m.TagSelect {
+		// Tag selection view
+		var tagList []string
+		for i, tag := range m.AvailableTags {
+			if i == m.Selected {
+				tagList = append(tagList, SelectedStyle.Render("> "+tag))
+			} else {
+				tagList = append(tagList, NormalStyle.Render("  "+tag))
+			}
+		}
+
+		return CenterContent(m.Width, m.Height,
+			lipgloss.JoinVertical(lipgloss.Left,
+				TitleStyle.Render("Available Tags"),
+				"",
+				strings.Join(tagList, "\n"),
+				"",
+				FooterStyle.Render("↑/↓: Navigate • Enter: Select Tag • q: Cancel"),
+			),
+		)
+	}
+
+	// Notes list view
 	var list []string
 	for i, note := range m.Notes {
 		if i == m.Selected {
@@ -158,7 +200,6 @@ func (m ListModel) View() string {
 		}
 	}
 
-	// Set title based on the tag filter
 	var titleText string
 	if m.TagFilter != "" {
 		titleText = fmt.Sprintf("Your Notes - Tag: %s", m.TagFilter)
@@ -172,7 +213,7 @@ func (m ListModel) View() string {
 			"",
 			strings.Join(list, "\n"),
 			"",
-			FooterStyle.Render("↑/↓: Navigate • Enter: Select • t: Filter by Tag • h: help • q: Back"),
+			FooterStyle.Render("↑/↓: Navigate • Enter: Select • t: Filter by Tag • h: help • q: Quit"),
 		),
 	)
 }
