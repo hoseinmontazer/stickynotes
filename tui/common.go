@@ -8,10 +8,15 @@ var (
 	HighlightColor = lipgloss.Color("#FFD700")
 	CautionColor   = lipgloss.Color("#ff0000")
 
+	// Define styles that use the colors
 	TitleStyle = lipgloss.NewStyle().
 			Bold(true).
 			Foreground(HighlightColor).
 			MarginBottom(1)
+
+	SomeCommonStyle = lipgloss.NewStyle().
+			Bold(true).
+			Foreground(lipgloss.Color("#00FF00"))
 
 	SelectedStyle = lipgloss.NewStyle().
 			Foreground(SecondaryColor).
@@ -23,6 +28,10 @@ var (
 	FooterStyle = lipgloss.NewStyle().
 			Faint(true).
 			MarginTop(1)
+
+	// You can create a specific style for the caution color
+	CautionStyle = lipgloss.NewStyle().
+			Foreground(CautionColor)
 )
 
 func CenterContent(width, height int, content string) string {
