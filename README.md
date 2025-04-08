@@ -8,6 +8,7 @@
 
 - ✅ Lightweight and easy to use
 - 🧠 Clean TUI built with [Bubble Tea](https://github.com/charmbracelet/bubbletea)
+- 📝 CLI support with **Cobra** for easy note management
 - 💾 Notes are stored as plain `.txt` files in `~/.stickynotes`
 - 🛠 CLI support for scripting or automation
 - 🗂 All notes are managed locally — no cloud, no sync
